@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email          String       @unique
+  name           String?
+  clerkId        String       @unique
+  role           Role         @default(ADMIN)
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @db.Uuid
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Organization {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  users       User[]
+  ziOrgId     String?
+  ziOrgApiKey String?
+  openings    Openings[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Openings {
+  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @db.Uuid
+  ziOpeningId    String?
+  applicants     Applicant[]
+  title          String
+  description    String
+  skills         String[]
+  additionalInfo String?
+  type           Type         @default(INTERNSHIP)
+  duration       Int          @default(3)
+  isActive       Boolean      @default(true)
+  location       Location     @default(REMOTE)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Applicant {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  firstName      String
+  lastName       String
+  email          String
+  ziCandidateId  String?
+  phone          String?
+  experience     String?
+  resume         String?
+  additionalInfo String?
+  opening        Openings @relation(fields: [openingId], references: [id], onDelete: Cascade)
+  openingId      String   @db.Uuid
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+enum Type {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+  INTERNSHIP_WITH_JOB_OFFER
+}
+
+enum Location {
+  REMOTE
+  ONSITE
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  STANDARD
+}
