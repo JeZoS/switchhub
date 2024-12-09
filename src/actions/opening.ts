@@ -34,7 +34,7 @@ export const getOpenings = async ({ organizationId }: { organizationId: string }
 
 export const createOpening = async (data: {
     title: string;
-    isTechnical: boolean;
+    // isTechnical: boolean;
     organizationId: string;
 }) => {
     try {
@@ -95,6 +95,8 @@ export const getOpening = async (id: string) => {
                         lastName: true,
                         email: true,
                         id: true,
+                        ziInterviewStatus: true,
+                        ziCandidateId: true,
                     },
                 },
                 title: true,

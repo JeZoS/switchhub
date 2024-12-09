@@ -55,19 +55,20 @@ model Openings {
 }
 
 model Applicant {
-  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  firstName      String
-  lastName       String
-  email          String
-  ziCandidateId  String?
-  phone          String?
-  experience     String?
-  resume         String?
-  additionalInfo String?
-  opening        Openings @relation(fields: [openingId], references: [id], onDelete: Cascade)
-  openingId      String   @db.Uuid
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  firstName         String
+  lastName          String
+  email             String
+  ziCandidateId     String?
+  ziInterviewStatus String? @default("PENDING")
+  phone             String?
+  experience        String?
+  resume            String?
+  additionalInfo    String?
+  opening           Openings @relation(fields: [openingId], references: [id], onDelete: Cascade)
+  openingId         String   @db.Uuid
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 enum Type {

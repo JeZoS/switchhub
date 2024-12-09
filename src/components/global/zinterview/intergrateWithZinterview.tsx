@@ -37,19 +37,27 @@ const IntegrateWithZinterview = ({
     const { toast } = useToast();
 
     const [alreadyHaveOne, setAlreadyHaveOne] = useState(true);
-    const { setOrgId } = useOrgStore(state => state);
-   
+    const { setOrgId } = useOrgStore((state) => state);
+
     const { mutate: createZinterviewOrganizationMutation, isPending: isCreatePending } = useMutationData(
         ["CreateZinterviewOrganization"],
         (data) => createZinterviewOrganization(data),
         "get-organizations",
         (data) => {
-            setOrgId(data.data);
-            toast({
-                title: "Success",
-                description: "Opening created successfully",
-            });
-            setIsDialogOpen(false);
+            // console.log(data);
+            if (data.status === 200) {
+                setOrgId(data.data);
+                toast({
+                    title: "Success",
+                    description: "Organization created successfully",
+                });
+                setIsDialogOpen(false);
+            } else {
+                toast({
+                    title: "Error",
+                    description: data.message,
+                });
+            }
         }
     );
 
@@ -58,12 +66,20 @@ const IntegrateWithZinterview = ({
         (data) => updateZinterviewOrganization(data),
         "get-organizations",
         (data) => {
-            console.log(data);
-            toast({
-                title: "Success",
-                description: "Integrated with Zinterview successfully",
-            });
-            // setIsDialogOpen(false);
+            // console.log("update", data);
+            if (data.status === 200) {
+                setOrgId(data.data);
+                toast({
+                    title: "Success",
+                    description: "Integrated with Zinterview successfully",
+                });
+                setIsDialogOpen(false);
+            } else {
+                toast({
+                    title: "Error",
+                    description: data.message,
+                });
+            }
         }
     );
 
@@ -72,6 +88,8 @@ const IntegrateWithZinterview = ({
             if ("name" in data) {
                 createZinterviewOrganizationMutation({
                     name: data.name,
+                    email: data.email,
+                    orgId: organizationId,
                 });
             }
         } else {
@@ -100,7 +118,7 @@ const IntegrateWithZinterview = ({
                 <DialogHeader>
                     <DialogTitle>Integrate With Zinterview</DialogTitle>
                     <DialogDescription>
-                        Enter your zinterview API_KEY to connect with zinterview.
+                        Zinterview Details.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4 max-h-[60vh]">
@@ -138,7 +156,7 @@ const IntegrateWithZinterview = ({
                 </div>
                 <DialogFooter>
                     <div className="flex w-full justify-between">
-                        {/* <Button
+                        <Button
                             variant="outline"
                             style={{
                                 borderColor: "rgba(107, 114, 128, 1)",
@@ -146,7 +164,7 @@ const IntegrateWithZinterview = ({
                             onClick={() => setAlreadyHaveOne(!alreadyHaveOne)}
                         >
                             {alreadyHaveOne ? "Don't have one?" : "Already have one?"}
-                        </Button> */}
+                        </Button>
                         <div></div>
                         <Button
                             type="submit"

@@ -8,7 +8,7 @@ interface Props {}
 const Navbar = (props: Props) => {
     const path = usePathname();
 
-    let title = "Navbar";
+    let title = "Organizations";
     let pathname = usePathname();
     let pathArray = pathname.trim().split("/");
     let organizationId = pathArray[3];
@@ -16,13 +16,13 @@ const Navbar = (props: Props) => {
     if (organizationId) {
         title = "Organization";
     }
-    if (openingId) {
+    if (openingId || pathArray[4] === "openings") {
         title = "Opening";
     }
 
     return (
         <div
-            className="w-full h-[4.05rem] capitalize flex p-4 items-center"
+            className="w-full h-[4.05rem] pl-14 md:pl-4 capitalize flex p-4 items-center"
             style={{
                 borderBottom: "1px solid #333",
             }}

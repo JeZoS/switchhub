@@ -1,12 +1,6 @@
 "use client";
 
-import { createOpening } from "@/actions/opening";
-import {
-    createOrganization,
-    createZinterviewOrganization,
-    updateZinterviewOrganization,
-    updateZinterviewSettings,
-} from "@/actions/organizations";
+import { updateZinterviewSettings } from "@/actions/organizations";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -30,24 +24,7 @@ const ZinterviewSettings = ({ organizationId, openingId }: { organizationId: str
     const { register, handleSubmit } = useForm<{ apiKey: string }>();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { toast } = useToast();
-
-    // const [alreadyHaveOne, setAlreadyHaveOne] = useState(true);
     const { setOrgId } = useOrgStore((state) => state);
-
-    // const { mutate: createZinterviewOrganizationMutation, isPending: isCreatePending } = useMutationData(
-    //     ["CreateZinterviewOrganization"],
-    //     (data) => createZinterviewOrganization(data),
-    //     "get-organizations",
-    //     (data) => {
-    //         setOrgId(data.data);
-    //         toast({
-    //             title: "Success",
-    //             description: "Opening created successfully",
-    //         });
-    //         setIsDialogOpen(false);
-    //     }
-    // );
-
     const { mutate: updateZinterviewSettingsMutation, isPending: isUpdatePending } = useMutationData(
         ["UpdateZinterviewOrganization"],
         (data) => updateZinterviewSettings(data),
@@ -63,7 +40,7 @@ const ZinterviewSettings = ({ organizationId, openingId }: { organizationId: str
             } else {
                 toast({
                     title: "Error",
-                    description: "Error updating Zinterview settings",
+                    description: data.message,
                 });
             }
         }
@@ -109,15 +86,6 @@ const ZinterviewSettings = ({ organizationId, openingId }: { organizationId: str
                 </div>
                 <DialogFooter>
                     <div className="flex w-full justify-between">
-                        {/* <Button
-                            variant="outline"
-                            style={{
-                                borderColor: "rgba(107, 114, 128, 1)",
-                            }}
-                            onClick={() => setAlreadyHaveOne(!alreadyHaveOne)}
-                        >
-                            {alreadyHaveOne ? "Don't have one?" : "Already have one?"}
-                        </Button> */}
                         <div></div>
                         <Button
                             type="submit"

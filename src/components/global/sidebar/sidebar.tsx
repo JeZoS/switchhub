@@ -83,7 +83,7 @@ const SideBar = () => {
                 }}
             >
                 {organizationId ? (
-                    !orgId.ziOrgId ? (
+                    !orgId?.ziOrgId ? (
                         <IntegrateWithZinterview
                             organizationId={organizationId}
                             openingId={openingId}

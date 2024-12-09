@@ -17,7 +17,7 @@ const Opening = ({ opening, organizationId }: Props) => {
     const { mutate, isPending } = useMutationData(
         ["deleteOpening"],
         (data) => deleteOpening(data),
-        "get-openings",
+        "get-openings-" + organizationId,
         () =>
             toast({
                 title: "Success",
