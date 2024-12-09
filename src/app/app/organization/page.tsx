@@ -8,9 +8,7 @@ import { Organization } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 
-interface Props {}
-
-const OrganizationsPage = (props: Props) => {
+const OrganizationsPage = () => {
     const { data, isPending } = useQueryData(["get-organizations"], () => getOrganizations());
 
     const { setOrgId } = useOrgStore((state) => state);

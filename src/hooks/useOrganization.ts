@@ -10,7 +10,7 @@ interface OrgStore {
 const useOrgStore = create<OrgStore>((set) => ({
     orgId: {},
     openingId: "",
-    setOrgId: (orgId: string) => set({ orgId }),
+    setOrgId: (orgId: any) => set({ orgId }),
     setOpeningId: (openingId: string) => set({ openingId }),
 }));
 
