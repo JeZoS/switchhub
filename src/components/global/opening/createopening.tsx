@@ -17,7 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutationData } from "@/hooks/useMutationData";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 
 const CreateOpening = ({ organizationId }: { organizationId: string }) => {
     const { register, handleSubmit } = useForm<{ title: string; isTechnical: boolean }>();
@@ -88,6 +88,7 @@ const CreateOpening = ({ organizationId }: { organizationId: string }) => {
                     <Button
                         type="submit"
                         onClick={handleSubmit(onSubmit)}
+                        disabled={isPending}
                     >
                         {isPending ? "Creating..." : "Create"}
                     </Button>

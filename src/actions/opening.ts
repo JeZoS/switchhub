@@ -4,7 +4,7 @@ import axios from "axios";
 
 // rendon UUID
 // const USER_ID = "123e4567-e89b-12d3-a456-426614174000";
-const ORG_ID = "123a4567-e89b-12d3-a456-426614174000";
+// const ORG_ID = "123a4567-e89b-12d3-a456-426614174000";
 
 export const getOpenings = async ({ organizationId }: { organizationId: string }) => {
     // return {
@@ -151,7 +151,7 @@ export const createZinterviewOpening = async (data: {
             };
         }
 
-        let apiKey = opening.organization.ziOrgApiKey;
+        const apiKey = opening.organization.ziOrgApiKey;
 
         const config = {
             headers: {
@@ -163,15 +163,15 @@ export const createZinterviewOpening = async (data: {
             jobDescription: data.JD,
             isTechnical: data.isTechnical,
         };
-        let resp = await axios.post(
+        const resp = await axios.post(
             "https://communal-quietly-doberman.ngrok-free.app/api/v1/openings/parse-create-opening",
             body,
             config
         );
         // console.log(resp.data);
         if (resp.status === 200) {
-            let openingId = resp.data.opening._id;
-            let updateOpening = await client.openings.update({
+            const openingId = resp.data.opening._id;
+            const updateOpening = await client.openings.update({
                 where: {
                     id: data.openingId,
                 },

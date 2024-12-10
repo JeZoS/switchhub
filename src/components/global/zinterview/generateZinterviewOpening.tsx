@@ -1,6 +1,6 @@
 "use client";
 
-import { createOpening, createZinterviewOpening } from "@/actions/opening";
+import { createZinterviewOpening } from "@/actions/opening";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -134,6 +134,7 @@ const GenerateZinterviewOpening = ({ openingDetails, openingId }: Props) => {
                     <Button
                         type="submit"
                         onClick={handleSubmit(onSubmit)}
+                        disabled={isPending}
                     >
                         {isPending ? "Creating..." : "Create"}
                     </Button>

@@ -12,7 +12,7 @@ interface Props {
     };
 }
 
-const page = (props: Props) => {
+const AllOpeningsPage = (props: Props) => {
     const { data, isPending } = useQueryData(["get-openings-" + props.params.organizationId], () =>
         getOpenings({ organizationId: props.params.organizationId })
     );
@@ -43,4 +43,4 @@ const page = (props: Props) => {
     );
 };
 
-export default page;
+export default AllOpeningsPage;

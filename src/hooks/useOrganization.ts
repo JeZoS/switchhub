@@ -3,7 +3,7 @@ import { create } from "zustand";
 interface OrgStore {
     orgId: any;
     openingId: string;
-    setOrgId: (orgId: string) => void;
+    setOrgId: (orgId: any) => void;
     setOpeningId: (openingId: string) => void;
 }
 

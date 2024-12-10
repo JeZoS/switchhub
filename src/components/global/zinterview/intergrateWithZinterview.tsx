@@ -1,8 +1,8 @@
 "use client";
 
-import { createOpening } from "@/actions/opening";
+// import { createOpening } from "@/actions/opening";
 import {
-    createOrganization,
+    // createOrganization,
     createZinterviewOrganization,
     updateZinterviewOrganization,
 } from "@/actions/organizations";
@@ -23,11 +23,10 @@ import { useMutationData } from "@/hooks/useMutationData";
 import useOrgStore from "@/hooks/useOrganization";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 const IntegrateWithZinterview = ({
     organizationId,
-    openingId,
+    // openingId,
 }: {
     organizationId: string;
     openingId: string;

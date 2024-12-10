@@ -1,6 +1,6 @@
 "use client";
 
-import { createOpening } from "@/actions/opening";
+// import { createOpening } from "@/actions/opening";
 import { createOrganization } from "@/actions/organizations";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutationData } from "@/hooks/useMutationData";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 
 const CreateOrganization = () => {
     const { register, handleSubmit } = useForm<{ name: string }>();
@@ -78,6 +78,7 @@ const CreateOrganization = () => {
                     <Button
                         type="submit"
                         onClick={handleSubmit(onSubmit)}
+                        disabled={isPending}
                     >
                         {isPending ? "Creating..." : "Create"}
                     </Button>

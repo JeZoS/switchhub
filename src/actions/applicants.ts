@@ -32,21 +32,39 @@ export const createApplicants = async (data: {
     }
 };
 
-export const deleteApplicants = async ({ id }: { id: string }) => {};
+// export const deleteApplicants = async ({ id }: { id: string }) => {};
 
-export const getApplicants = async (id: string) => {};
+// export const getApplicants = async (id: string) => {};
 
-export const updateApplicants = async (data: { id: string }) => {};
+// export const updateApplicants = async (data: { id: string }) => {};
 
-export const getApplicant = async (id: string) => {};
+// export const getApplicant = async (id: string) => {};
 
-export const updateApplicant = async (data: { id: string }) => {};
+// export const updateApplicant = async (data: { id: string }) => {};
 
 export const getZiCandidate = async (id: string, ziOpeningId: string) => {
     try {
         const candidate = await client.applicant.findUnique({
             where: {
                 id: id,
+            },
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                ziCandidateId: true,
+                opening: {
+                    select: {
+                        id: true,
+                        ziOpeningId: true,
+                        organization: {
+                            select: {
+                                ziOrgApiKey: true,
+                            },
+                        },
+                    },
+                },
             },
         });
         if (!candidate) {
@@ -66,7 +84,7 @@ export const getZiCandidate = async (id: string, ziOpeningId: string) => {
         const config = {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "64cd2939e703852ce07e9eadd32b680fc8308700",
+                Authorization: candidate.opening.organization.ziOrgApiKey,
             },
         };
         const body = {
@@ -75,7 +93,7 @@ export const getZiCandidate = async (id: string, ziOpeningId: string) => {
             email: candidate.email,
             openingId: ziOpeningId,
         };
-        let resp = await axios.post(
+        const resp = await axios.post(
             "https://communal-quietly-doberman.ngrok-free.app/api/v1/candidates/create-candidate",
             body,
             config

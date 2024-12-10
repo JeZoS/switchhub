@@ -52,6 +52,7 @@ const Opening = ({ opening, organizationId }: Props) => {
                     onClick={() => {
                         mutate({ id: opening.id });
                     }}
+                    disabled={isPending}
                 >
                     {isPending ? "Deleting..." : "Delete"}
                 </Button>

@@ -1,7 +1,7 @@
 "use client";
 
 import { createApplicants } from "@/actions/applicants";
-import { createOpening } from "@/actions/opening";
+// import { createOpening } from "@/actions/opening";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -14,11 +14,11 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+// import { useToast } from "@/hooks/use-toast";
 import { useMutationData } from "@/hooks/useMutationData";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 
 interface Props {
     openingId: string;
@@ -106,6 +106,7 @@ const CreateApplicants = (props: Props) => {
                     <Button
                         type="submit"
                         onClick={handleSubmit(onSubmit)}
+                        disabled={isPending}
                     >
                         {isPending ? "Creating..." : "Create"}
                     </Button>

@@ -6,7 +6,7 @@ import CreateApplicants from "@/components/global/applicants/createapplicants";
 import GenerateAndSendZinterviewLink from "@/components/global/zinterview/generateAndSendZinterviewLink";
 import GenerateZinterviewOpening from "@/components/global/zinterview/generateZinterviewOpening";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import useCandidateStore from "@/hooks/useCandidates";
 import { useQueryData } from "@/hooks/useQueryData";

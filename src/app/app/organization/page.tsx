@@ -4,7 +4,13 @@ import { getOrganizations } from "@/actions/organizations";
 import CreateOrganization from "@/components/global/organization/createOrganization";
 import useOrgStore from "@/hooks/useOrganization";
 import { useQueryData } from "@/hooks/useQueryData";
-import { Organization } from "@prisma/client";
+import { Organization as PrismaOrganization } from "@prisma/client";
+
+interface Organization extends PrismaOrganization {
+    _count: {
+        openings: number;
+    };
+}
 import Link from "next/link";
 import React from "react";
 

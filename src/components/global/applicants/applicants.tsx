@@ -1,7 +1,7 @@
 import { getZiCandidate } from "@/actions/applicants";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { useMutationData } from "@/hooks/useMutationData";
+// import { useMutationData } from "@/hooks/useMutationData";
 import type { Applicant } from "@prisma/client";
 import React from "react";
 
@@ -28,7 +28,7 @@ const Applicant = ({ applicant, ziOpeningId, isChecked, onCheckBoxClick }: Props
     // );
 
     const onSubmit = async () => {
-        let response = await getZiCandidate(applicant.id, ziOpeningId);
+        const response = await getZiCandidate(applicant.id, ziOpeningId);
         if (response.status === 200) {
             navigator.clipboard.writeText(
                 `https://testbed3.zinterview.ai/interview/${ziOpeningId}/start/${response.data?.ziCandidateId}`
