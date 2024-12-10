@@ -66,6 +66,26 @@ export const getOrganization = async (id: string) => {
     }
 };
 
+export const deleteOrganization = async ({ id }: { id: string }) => {
+    try {
+        const deletedOrganization = await client.organization.delete({
+            where: {
+                id,
+            },
+        });
+        return {
+            status: 200,
+            data: deletedOrganization,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            message: "Internal Server Error",
+        };
+    }
+};
+
 export const createZinterviewOrganization = async (data: { orgId: string; name: string; email: string }) => {
     try {
         const url =
@@ -145,6 +165,7 @@ export const updateZinterviewOrganization = async (data: { ApiKey: string; orgId
             message: "Internal Server Error",
         };
     } catch (error) {
+        console.log(error);
         return {
             status: 500,
             message: "Internal Server Error",
