@@ -4,6 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 // import { useMutationData } from "@/hooks/useMutationData";
 import type { Applicant } from "@prisma/client";
 import React from "react";
+// import { columns, Payment } from "./ApplicantsTable/columns";
 
 interface Props {
     applicant: Applicant;
@@ -104,3 +105,5 @@ const Applicant = ({ applicant, ziOpeningId, isChecked, onCheckBoxClick }: Props
 };
 
 export default Applicant;
+
+

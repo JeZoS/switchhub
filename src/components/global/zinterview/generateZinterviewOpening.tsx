@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form";
 interface Props {
     openingDetails: {
         title: string;
+        description: string;
     };
     openingId: string;
 }
@@ -37,7 +38,7 @@ const GenerateZinterviewOpening = ({ openingDetails, openingId }: Props) => {
     });
 
     useEffect(() => {
-        setValue("JD", openingDetails.title);
+        setValue("JD", `Title: ${openingDetails.title}\n\nDescription: ${openingDetails.description}`);
     }, [openingDetails.title]);
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -107,6 +108,7 @@ const GenerateZinterviewOpening = ({ openingDetails, openingId }: Props) => {
                             <Label htmlFor="JD">JD</Label>
                             <Textarea
                                 id="JD"
+                                rows={5}
                                 placeholder="Enter the job title"
                                 {...register("JD")}
                             />

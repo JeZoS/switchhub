@@ -63,7 +63,8 @@ const CreateApplicants = (props: Props) => {
         >
             <DialogTrigger asChild>
                 <Button
-                    variant="outline"
+                    // variant="outline"
+                    className="bg-black hover:bg-black rounded-md text-white"
                     onClick={() => setIsDialogOpen(true)}
                 >
                     Add Applicant
@@ -77,7 +78,12 @@ const CreateApplicants = (props: Props) => {
                 <div className="grid gap-4 py-4 max-h-[60vh]">
                     <div className="grid gap-2">
                         <div className="flex w-full justify-between gap-2 items-center">
-                            <Label htmlFor="firstName">First Name</Label>
+                            <Label
+                                htmlFor="firstName"
+                                className="w-[12ch]"
+                            >
+                                First Name
+                            </Label>
                             <Input
                                 id="firstName"
                                 placeholder="First Name"
@@ -85,7 +91,12 @@ const CreateApplicants = (props: Props) => {
                             />
                         </div>
                         <div className="flex w-full justify-between gap-2 items-center">
-                            <Label htmlFor="lastName">Last Name</Label>
+                            <Label
+                                htmlFor="lastName"
+                                className="w-[12ch]"
+                            >
+                                Last Name
+                            </Label>
                             <Input
                                 id="lastName"
                                 placeholder="Last Name"
@@ -93,7 +104,12 @@ const CreateApplicants = (props: Props) => {
                             />
                         </div>
                         <div className="flex w-full justify-between gap-2 items-center">
-                            <Label htmlFor="email">Email</Label>
+                            <Label
+                                htmlFor="email"
+                                className="w-[12ch]"
+                            >
+                                Email
+                            </Label>
                             <Input
                                 id="email"
                                 placeholder="Email"

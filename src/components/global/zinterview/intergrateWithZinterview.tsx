@@ -35,7 +35,7 @@ const IntegrateWithZinterview = ({
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { toast } = useToast();
 
-    const [alreadyHaveOne, setAlreadyHaveOne] = useState(true);
+    const [alreadyHaveOne, setAlreadyHaveOne] = useState(false);
     const { setOrgId } = useOrgStore((state) => state);
 
     const { mutate: createZinterviewOrganizationMutation, isPending: isCreatePending } = useMutationData(

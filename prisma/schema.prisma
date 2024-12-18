@@ -60,7 +60,7 @@ model Applicant {
   lastName          String
   email             String
   ziCandidateId     String?
-  ziInterviewStatus String? @default("PENDING")
+  ziInterviewStatus String?
   phone             String?
   experience        String?
   resume            String?

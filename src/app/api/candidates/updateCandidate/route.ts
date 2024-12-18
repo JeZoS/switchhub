@@ -1,7 +1,6 @@
 import { client } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
-
 export async function GET() {
     return new Response(JSON.stringify({ message: "Hello, world!" }), {
         status: 200,
@@ -13,7 +12,8 @@ export async function POST(request: NextRequest) {
     try {
         const textBody = await request.text();
         const body = JSON.parse(textBody);
-        const { isCompleted, candidateId } = body;
+        const { isCompleted, candidateId, score } = body;
+        // console.log("body", body);ca
         if (isCompleted) {
             const candidate = await client.applicant.findFirst({
                 where: {
@@ -27,6 +27,9 @@ export async function POST(request: NextRequest) {
                     },
                     data: {
                         ziInterviewStatus: "COMPLETED",
+                        additionalInfo: JSON.stringify({
+                            zinterviewScore: score,
+                        }),
                     },
                 });
             }

@@ -47,6 +47,9 @@ const OrganizationsPage = () => {
                         />
                     );
                 })}
+                {
+                    organizations.length === 0 && <div className="w-full h-full flex items-center justify-center self-center">No data found</div>
+                }
             </div>
         </div>
     );

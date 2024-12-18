@@ -2,6 +2,7 @@
 
 import { client } from "@/lib/prisma";
 import axios from "axios";
+const ZI_API_URL = "https://communal-quietly-doberman.ngrok-free.app/api/v1";
 
 export const createApplicants = async (data: {
     firstName: string;
@@ -18,7 +19,6 @@ export const createApplicants = async (data: {
                 openingId: data.openingId,
             },
         });
-        console.log(createdApplicant);
         return {
             status: 200,
             data: createdApplicant,
@@ -73,7 +73,6 @@ export const getZiCandidate = async (id: string, ziOpeningId: string) => {
                 message: "Candidate not found",
             };
         }
-        console.log(candidate);
         if (candidate.ziCandidateId) {
             return {
                 status: 200,
@@ -93,11 +92,7 @@ export const getZiCandidate = async (id: string, ziOpeningId: string) => {
             email: candidate.email,
             openingId: ziOpeningId,
         };
-        const resp = await axios.post(
-            "https://communal-quietly-doberman.ngrok-free.app/api/v1/candidates/create-candidate",
-            body,
-            config
-        );
+        const resp = await axios.post(ZI_API_URL + "/candidates/create-candidate", body, config);
         if (resp.data && resp.data.data && resp.data.data._id) {
             await client.applicant.update({
                 where: {

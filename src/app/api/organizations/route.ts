@@ -10,8 +10,6 @@ export async function POST(request: any) {
     try {
         const textBody = await request.text();
         const body = JSON.parse(textBody);
-        console.log("Parsed body:", body);
-
         return new Response(JSON.stringify({ message: "Data received successfully", data: body }), {
             status: 200,
             headers: { "Content-Type": "application/json" },

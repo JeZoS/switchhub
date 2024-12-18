@@ -2,6 +2,7 @@
 
 import { getOpening } from "@/actions/opening";
 import Applicant from "@/components/global/applicants/applicants";
+import FormatApplicants from "@/components/global/applicants/ApplicantsTable/FormatApplicants";
 import CreateApplicants from "@/components/global/applicants/createapplicants";
 import GenerateAndSendZinterviewLink from "@/components/global/zinterview/generateAndSendZinterviewLink";
 import GenerateZinterviewOpening from "@/components/global/zinterview/generateZinterviewOpening";
@@ -33,6 +34,7 @@ const OpeningId = (props: Props) => {
         data: {
             title: string;
             ziOpeningId: string;
+            descritpion: string;
             applicants: ApplicatType[];
         };
     };
@@ -76,28 +78,32 @@ const OpeningId = (props: Props) => {
                 </div>
             </div>
             <div className="p-4">
-                <div className="flex gap-4 px-[1.1rem] py-1">
-                    <input
-                        type="checkbox"
-                        checked={
-                            selectedCandidates.length === openingDetails.applicants.length &&
-                            selectedCandidates.length > 0
-                        }
-                        onChange={(e) => {
-                            if (e.target.checked) {
-                                openingDetails.applicants.forEach((applicant) => {
-                                    addCandidate(applicant.id);
-                                });
-                            } else {
-                                openingDetails.applicants.forEach((applicant) => {
-                                    removeCandidate(applicant.id);
-                                });
-                            }
-                        }}
-                    />
-                    <h1>Applicants</h1>
-                </div>
-                {openingDetails.applicants.map((applicant) => {
+                {/* <div className="flex gap-4 px-[1.1rem] py-1">
+                    {openingDetails.applicants.length !== 0 && (
+                        <>
+                            <input
+                                type="checkbox"
+                                checked={
+                                    selectedCandidates.length === openingDetails?.applicants?.length &&
+                                    selectedCandidates.length > 0
+                                }
+                                onChange={(e) => {
+                                    if (e.target.checked) {
+                                        openingDetails.applicants.forEach((applicant) => {
+                                            addCandidate(applicant.id);
+                                        });
+                                    } else {
+                                        openingDetails.applicants.forEach((applicant) => {
+                                            removeCandidate(applicant.id);
+                                        });
+                                    }
+                                }}
+                            />
+                            <h1>Applicants</h1>
+                        </>
+                    )}
+                </div> */}
+                {/* {openingDetails.applicants.map((applicant) => {
                     return (
                         <Applicant
                             key={applicant.id}
@@ -114,7 +120,20 @@ const OpeningId = (props: Props) => {
                             isChecked={selectedCandidates.includes(applicant.id)}
                         />
                     );
-                })}
+                })} */}
+                <FormatApplicants
+                    applicants={openingDetails.applicants}
+                    openingDetails={openingDetails}
+                    // onCheckBoxClick={(isChecked: boolean, applicantId: string) => {
+                    //     if (isChecked) {
+                    //         addCandidate(applicantId);
+                    //     } else {
+                    //         removeCandidate(applicantId);
+                    //     }
+                    // }}
+                    // selectedCandidates={selectedCandidates}
+                    organizationId="aksdfhahrghksd"
+                />
             </div>
         </div>
     );

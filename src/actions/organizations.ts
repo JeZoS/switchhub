@@ -2,6 +2,8 @@
 import { client } from "@/lib/prisma";
 import axios from "axios";
 
+const ZI_API_URL = "https://communal-quietly-doberman.ngrok-free.app/api/v1";
+
 export const createOrganization = async ({ name }: { name: string }) => {
     try {
         const organization = await client.organization.create({
@@ -88,8 +90,7 @@ export const deleteOrganization = async ({ id }: { id: string }) => {
 
 export const createZinterviewOrganization = async (data: { orgId: string; name: string; email: string }) => {
     try {
-        const url =
-            "https://communal-quietly-doberman.ngrok-free.app/api/v1/organization/create-organization";
+        const url = ZI_API_URL + "/organization/create-organization";
         const body = {
             organizationName: data.name,
             email: data.email,
@@ -122,8 +123,8 @@ export const createZinterviewOrganization = async (data: { orgId: string; name: 
             status: 500,
             message: "Internal Server Error",
         };
-    } catch (error: any) {
-        // console.log(error.status, error.response.data);
+    } catch (error) {
+        console.log(error);
         return {
             status: 500,
             message: error?.response?.data?.message || "Internal Server Error",
@@ -131,7 +132,7 @@ export const createZinterviewOrganization = async (data: { orgId: string; name: 
     }
 };
 
-export const updateZiOrgId = async (data: { id: string; ziOrgId: string }) => {};
+// export const updateZiOrgId = async (data: { id: string; ziOrgId: string }) => {};
 
 export const updateZinterviewOrganization = async (data: { ApiKey: string; orgId: string }) => {
     try {
@@ -141,10 +142,7 @@ export const updateZinterviewOrganization = async (data: { ApiKey: string; orgId
             },
         };
 
-        let resp = await axios.get(
-            "https://communal-quietly-doberman.ngrok-free.app/api/v1/organization/get-organization-details",
-            config
-        );
+        const resp = await axios.get(ZI_API_URL + "/organization/get-organization-details", config);
         if (resp && resp.data && resp.data.data && resp.data.data._id) {
             const org = await client.organization.update({
                 where: {
@@ -173,7 +171,7 @@ export const updateZinterviewOrganization = async (data: { ApiKey: string; orgId
     }
 };
 
-export const updateZinterviewSettings = async (data: { orgId: string; apiKey: any }) => {
+export const updateZinterviewSettings = async (data: { orgId: string; apiKey: string }) => {
     try {
         const organization = await client.organization.findUnique({
             where: {
@@ -189,15 +187,13 @@ export const updateZinterviewSettings = async (data: { orgId: string; apiKey: an
         }
         let resp = null;
         try {
-            resp = await axios.get(
-                "https://communal-quietly-doberman.ngrok-free.app/api/v1/organization/get-organization-details",
-                {
-                    headers: {
-                        Authorization: data.apiKey,
-                    },
-                }
-            );
+            resp = await axios.get(ZI_API_URL + "/organization/get-organization-details", {
+                headers: {
+                    Authorization: data.apiKey,
+                },
+            });
         } catch (error) {
+            console.log(error);
             return {
                 status: 400,
                 message: "Invalid API Key",

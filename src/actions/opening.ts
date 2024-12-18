@@ -1,24 +1,15 @@
 "use server";
 import { client } from "@/lib/prisma";
 import axios from "axios";
-
-// rendon UUID
-// const USER_ID = "123e4567-e89b-12d3-a456-426614174000";
-// const ORG_ID = "123a4567-e89b-12d3-a456-426614174000";
+const ZI_API_URL = "https://communal-quietly-doberman.ngrok-free.app/api/v1";
 
 export const getOpenings = async ({ organizationId }: { organizationId: string }) => {
-    // return {
-    //     status: 200,
-    //     data: [],
-    // };
     try {
-        // console.log("fetching openings");
         const openings = await client.openings.findMany({
             where: {
                 organizationId: organizationId,
             },
         });
-        // console.log(openings);
         return {
             status: 200,
             data: openings,
@@ -32,11 +23,8 @@ export const getOpenings = async ({ organizationId }: { organizationId: string }
     }
 };
 
-export const createOpening = async (data: {
-    title: string;
-    // isTechnical: boolean;
-    organizationId: string;
-}) => {
+export const createOpening = async (data: { title: string; description: string; organizationId: string }) => {
+    console.log(data);
     try {
         const newOpening = client.openings.create({
             data: {
@@ -44,8 +32,8 @@ export const createOpening = async (data: {
                 // isTechnical: data.isTechnical,
                 // createdBy: USER_ID,
                 organizationId: data.organizationId,
-                description: "This is a test description",
-                additionalInfo: "Additional information",
+                description: data.description || "This is a test description",
+                additionalInfo: JSON.stringify({}),
                 duration: 30,
             },
         });
@@ -97,10 +85,12 @@ export const getOpening = async (id: string) => {
                         id: true,
                         ziInterviewStatus: true,
                         ziCandidateId: true,
+                        additionalInfo: true,
                     },
                 },
                 title: true,
                 ziOpeningId: true,
+                description: true,
             },
         });
         return {
@@ -163,12 +153,7 @@ export const createZinterviewOpening = async (data: {
             jobDescription: data.JD,
             isTechnical: data.isTechnical,
         };
-        const resp = await axios.post(
-            "https://communal-quietly-doberman.ngrok-free.app/api/v1/openings/parse-create-opening",
-            body,
-            config
-        );
-        // console.log(resp.data);
+        const resp = await axios.post(ZI_API_URL + "/openings/parse-create-opening", body, config);
         if (resp.status === 200) {
             const openingId = resp.data.opening._id;
             const updateOpening = await client.openings.update({
@@ -179,7 +164,6 @@ export const createZinterviewOpening = async (data: {
                     ziOpeningId: openingId,
                 },
             });
-            console.log(updateOpening);
             return {
                 status: 200,
                 data: updateOpening,

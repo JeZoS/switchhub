@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useMutationData } from "@/hooks/useMutationData";
 import { useState } from "react";
@@ -20,7 +21,7 @@ import { useForm } from "react-hook-form";
 // import { toast } from "sonner";
 
 const CreateOpening = ({ organizationId }: { organizationId: string }) => {
-    const { register, handleSubmit } = useForm<{ title: string; isTechnical: boolean }>();
+    const { register, handleSubmit } = useForm<{ title: string; description: boolean }>();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { toast } = useToast();
 
@@ -37,10 +38,10 @@ const CreateOpening = ({ organizationId }: { organizationId: string }) => {
         }
     );
 
-    const onSubmit = (data: { title: string; isTechnical: boolean }) => {
+    const onSubmit = (data: { title: string; description: boolean }) => {
         mutate({
             title: data.title,
-            // isTechnical: data.isTechnical,
+            description: data.description,
             organizationId: organizationId,
         });
     };
@@ -70,18 +71,19 @@ const CreateOpening = ({ organizationId }: { organizationId: string }) => {
                             <Input
                                 id="JD"
                                 placeholder="Enter the job title"
+                                required
                                 {...register("title")}
                             />
                         </div>
-                        {/* <div className="flex w-full gap-4 items-center">
-                            <Label htmlFor="isTechnical">Is Technical?</Label>
-                            <Input
-                                id="isTechnical"
-                                type="checkbox"
-                                {...register("isTechnical")}
-                                className="h-5 w-5"
+                        <div className="flex w-full gap-4 items-center">
+                            <Label htmlFor="Description">Description</Label>
+                            <Textarea
+                                id="Description"
+                                required
+                                placeholder="Enter the job description"
+                                {...register("description")}
                             />
-                        </div> */}
+                        </div>
                     </div>
                 </div>
                 <DialogFooter>
