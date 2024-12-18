@@ -12,7 +12,7 @@ export default function FormatApplicants({
 }) {
     // console.log(applicants);
     return (
-        <div className="container mx-auto py-10">
+        <div className="mx-auto">
             <ApplicantsDataTable
                 data={applicants}
                 openingDetails={openingDetails}
