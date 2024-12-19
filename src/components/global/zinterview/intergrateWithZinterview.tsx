@@ -106,8 +106,7 @@ const IntegrateWithZinterview = ({
         >
             <DialogTrigger asChild>
                 <Button
-                    // variant="default"
-                    className="w-full bg-violet-500"
+                    className="w-full bg-black hover:bg-white hover:text-black"
                     onClick={() => setIsDialogOpen(true)}
                 >
                     Integrate with Zinterview

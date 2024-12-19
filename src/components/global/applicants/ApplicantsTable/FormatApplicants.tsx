@@ -10,7 +10,6 @@ export default function FormatApplicants({
     openingDetails: Openings;
     organizationId: string;
 }) {
-    // console.log(applicants);
     return (
         <div className="mx-auto">
             <ApplicantsDataTable

@@ -108,22 +108,30 @@ export const useGetColumns = ({ openingDetails }: { openingDetails: Openings }) 
             header: "ZInterview Details",
 
             cell: (row) => {
-                const getStatus = (status, additionalInfo) => {
+                const getStatus = (additionalInfo) => {
                     let score = null;
+                    let status = null;
                     if (additionalInfo) {
                         additionalInfo = JSON.parse(additionalInfo);
-                        score = additionalInfo.zinterviewScore;
+                        if (additionalInfo.zinterviewDetails) {
+                            let zinterviewDetails = JSON.parse(additionalInfo.zinterviewDetails);
+                            if (zinterviewDetails) {
+                                score = zinterviewDetails.score;
+                                status = zinterviewDetails.interviewStatus;
+                            }
+                        }
                     }
+                    // console.log("status", additionalInfo, status, score);
                     switch (status) {
-                        case "COMPLETED":
+                        case "Interview Completed":
                             return (
                                 <>
                                     <span className="text-sm px-2 py-1 rounded-md bg-green-100 border border-green-300">
                                         {status}
                                     </span>
-                                    {score && (
+                                    {score != null && (
                                         <span className="flex justify-center items-center border border-yellow-300 py-1 px-2 rounded-md bg-yellow-100">
-                                            Score {score}
+                                            Score: {score}
                                         </span>
                                     )}
                                 </>
@@ -144,7 +152,7 @@ export const useGetColumns = ({ openingDetails }: { openingDetails: Openings }) 
                 };
                 return (
                     <div className="flex justify-start items-center gap-2">
-                        {getStatus(row.row.original.ziInterviewStatus, row.row.original.additionalInfo)}
+                        {getStatus(row.row.original.additionalInfo)}
                     </div>
                 );
             },
@@ -153,19 +161,51 @@ export const useGetColumns = ({ openingDetails }: { openingDetails: Openings }) 
             id: "CandidateActions",
             header: "Actions",
             cell: (row) => {
+                const getStatus = (additionalInfo) => {
+                    let score = null;
+                    let status = null;
+                    if (additionalInfo) {
+                        additionalInfo = JSON.parse(additionalInfo);
+                        if (additionalInfo.zinterviewDetails) {
+                            let zinterviewDetails = JSON.parse(additionalInfo.zinterviewDetails);
+                            if (zinterviewDetails) {
+                                score = zinterviewDetails.score;
+                                status = zinterviewDetails.interviewStatus;
+                            }
+                        }
+                    }
+                    return status;
+                };
+
                 return (
                     <div className="flex justify-start items-center gap-2">
                         {openingDetails.ziOpeningId && (
                             <Button
                                 size="sm"
                                 className="bg-white border border-black text-black hover:bg-white hover:text-black"
-                                onClick={() => onSubmit(row.row.original.id)}
-                                disabled={
-                                    row.row.original.ziInterviewStatus === "COMPLETED" ||
-                                    (loading.state && loading.id === row.row.original.id)
-                                }
+                                onClick={() => {
+                                    if (
+                                        getStatus(row.row.original.additionalInfo) === "Interview Completed"
+                                    ) {
+                                        try {
+                                            navigator?.clipboard?.writeText(
+                                                `localhost:3001/admin/evaluation/${row.row.original.ziCandidateId}?openingId=${openingDetails.ziOpeningId}`
+                                            );
+                                            toast({
+                                                title: "Copied",
+                                                description: "Evaluation link copied to clipboard",
+                                            });
+                                        } catch (error) {
+                                            console.log(error);
+                                        }
+                                        return;
+                                    }
+                                    onSubmit(row.row.original.id);
+                                }}
                             >
-                                zinterview Link
+                                {getStatus(row.row.original.additionalInfo) === "Interview Completed"
+                                    ? "Evaluation Link"
+                                    : "Zinterview Link"}
                             </Button>
                         )}
                         <Edit className="cursor-not-allowed text-gray-400 hover:scale-110 transition-all" />

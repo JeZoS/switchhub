@@ -32,7 +32,7 @@ const CreateOrganization = () => {
         () => {
             toast({
                 title: "Success",
-                description: "Opening created successfully",
+                description: "Organization created successfully",
             });
             setIsDialogOpen(false);
         }

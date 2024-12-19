@@ -12,23 +12,24 @@ export async function POST(request: NextRequest) {
     try {
         const textBody = await request.text();
         const body = JSON.parse(textBody);
-        const { isCompleted, candidateId, score } = body;
-        // console.log("body", body);ca
-        if (isCompleted) {
+        const { details } = body;
+        const { id } = JSON.parse(details);
+        console.log(id);
+        if (id) {
             const candidate = await client.applicant.findFirst({
                 where: {
-                    ziCandidateId: candidateId,
+                    ziCandidateId: id,
                 },
             });
+            console.log(candidate);
             if (candidate) {
                 await client.applicant.update({
                     where: {
                         id: candidate.id,
                     },
                     data: {
-                        ziInterviewStatus: "COMPLETED",
                         additionalInfo: JSON.stringify({
-                            zinterviewScore: score,
+                            zinterviewDetails: details,
                         }),
                     },
                 });
