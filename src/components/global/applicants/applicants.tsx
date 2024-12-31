@@ -82,7 +82,7 @@ const Applicant = ({ applicant, ziOpeningId, isChecked, onCheckBoxClick }: Props
                         }}
                         onClick={() => {
                             navigator.clipboard.writeText(
-                                `localhost:3001/admin/evaluation/${applicant.ziCandidateId}?openingId=${ziOpeningId}`
+                                `https://app.zinterview.ai/admin/evaluation/${applicant.ziCandidateId}?openingId=${ziOpeningId}`
                             );
                             toast({
                                 title: "Copied",

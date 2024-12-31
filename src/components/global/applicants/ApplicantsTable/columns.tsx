@@ -189,7 +189,7 @@ export const useGetColumns = ({ openingDetails }: { openingDetails: Openings }) 
                                     ) {
                                         try {
                                             navigator?.clipboard?.writeText(
-                                                `localhost:3001/admin/evaluation/${row.row.original.ziCandidateId}?openingId=${openingDetails.ziOpeningId}`
+                                                `https://app.zinterview.ai/admin/evaluation/${row.row.original.ziCandidateId}?openingId=${openingDetails.ziOpeningId}`
                                             );
                                             toast({
                                                 title: "Copied",
