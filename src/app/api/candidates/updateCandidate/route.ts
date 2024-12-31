@@ -14,14 +14,14 @@ export async function POST(request: NextRequest) {
         const body = JSON.parse(textBody);
         const { details } = body;
         const { id } = JSON.parse(details);
-        console.log(id);
+        // console.log(id);
         if (id) {
             const candidate = await client.applicant.findFirst({
                 where: {
                     ziCandidateId: id,
                 },
             });
-            console.log(candidate);
+            // console.log(candidate);
             if (candidate) {
                 await client.applicant.update({
                     where: {
