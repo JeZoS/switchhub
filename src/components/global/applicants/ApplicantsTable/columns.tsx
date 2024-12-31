@@ -28,7 +28,7 @@ export const useGetColumns = ({ openingDetails }: { openingDetails: Openings }) 
             const response = await getZiCandidate(applicantId, openingDetails.ziOpeningId);
             if (response.status === 200) {
                 navigator.clipboard.writeText(
-                    `https://testbed3.zinterview.ai/interview/${openingDetails.ziOpeningId}/start/${response.data?.ziCandidateId}`
+                    `https://app.zinterview.ai/interview/${openingDetails.ziOpeningId}/start/${response.data?.ziCandidateId}`
                 );
                 toast({
                     title: "Success",

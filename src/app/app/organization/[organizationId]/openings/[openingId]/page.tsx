@@ -55,7 +55,7 @@ const OpeningId = (props: Props) => {
                             variant="secondary"
                             onClick={() => {
                                 navigator.clipboard.writeText(
-                                    `https://testbed3.zinterview.ai/interview/${openingDetails.ziOpeningId}`
+                                    `https://app.zinterview.ai/interview/${openingDetails.ziOpeningId}`
                                 );
                                 toast({
                                     title: "Copied",

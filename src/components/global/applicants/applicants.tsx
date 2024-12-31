@@ -32,7 +32,7 @@ const Applicant = ({ applicant, ziOpeningId, isChecked, onCheckBoxClick }: Props
         const response = await getZiCandidate(applicant.id, ziOpeningId);
         if (response.status === 200) {
             navigator.clipboard.writeText(
-                `https://testbed3.zinterview.ai/interview/${ziOpeningId}/start/${response.data?.ziCandidateId}`
+                `https://app.zinterview.ai/interview/${ziOpeningId}/start/${response.data?.ziCandidateId}`
             );
             toast({
                 title: "Success",
