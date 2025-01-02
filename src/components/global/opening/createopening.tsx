@@ -56,7 +56,7 @@ const CreateOpening = ({ organizationId }: { organizationId: string }) => {
                     variant="outline"
                     onClick={() => setIsDialogOpen(true)}
                 >
-                    Create Opening
+                    Create New Opening
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">

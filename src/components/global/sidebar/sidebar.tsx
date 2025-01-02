@@ -10,10 +10,18 @@ import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
 import useOrgStore from "@/hooks/useOrganization";
 import IntegrateWithZinterview from "../zinterview/intergrateWithZinterview";
-import { getOrganization } from "@/actions/organizations";
+import { getOrganization, getOrganizations } from "@/actions/organizations";
 import ZinterviewSettings from "../zinterview/zinterviewSettings";
+import { useQueryData } from "@/hooks/useQueryData";
+import SelectOrganization from "../organization/selectOrganization";
+import CreateOrganization from "../organization/createOrganization";
+import { Organization } from "@prisma/client";
 
 const SideBar = () => {
+    const { data, isPending: loadingOrganizations } = useQueryData(["get-organizations"], () =>
+        getOrganizations()
+    );
+
     const { orgId, setOrgId } = useOrgStore((state) => state);
 
     let pathname = usePathname();
@@ -61,17 +69,32 @@ const SideBar = () => {
                 />
                 <p className="text-2xl">SwitchHub</p>
             </Link>
-            <div className="flex flex-col h-full w-full mt-12 p-4">
-                {!!organizationId && <p className="self-center my-2">{orgId?.name}</p>}
+            <div
+                className="mt-20 items-center justify-center w-full px-4 pb-5"
+                style={{
+                    borderBottom: "1px solid #333333",
+                }}
+            >
+                <p className="text-xs font-semibold text-gray-400 pl-1 pb-1">Switch Organizations</p>
+                {loadingOrganizations ? (
+                    <>Loading...</>
+                ) : (
+                    <div className="flex flex-col gap-2">
+                        <SelectOrganization organizations={data.data} />
+                        <CreateOrganization />
+                    </div>
+                )}
+            </div>
+            <div className="flex flex-col h-full w-full px-4">
+                {!!organizationId && (
+                    <>
+                        <p className="text-xs font-semibold text-gray-400 pl-1 pb-1">Selected Organization</p>
+                        <p className="pl-1 my-2 uppercase font-bold">{orgId?.name}</p>
+                    </>
+                )}
                 {organizationId && openingId && (
-                    <Button
-                        variant="outline"
-                        className="w-full my-1"
-                        style={{
-                            border: "1px solid #333333",
-                        }}
-                    >
-                        <Link href={`/app/organization/${organizationId}/openings`}>All openings</Link>
+                    <Button variant="outline">
+                        <Link href={`/app/organization/${organizationId}/openings`}>Show all openings</Link>
                     </Button>
                 )}
                 {!openingId && organizationId && <CreateOpening organizationId={organizationId} />}

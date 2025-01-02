@@ -8,14 +8,15 @@ import useOrgStore from "@/hooks/useOrganization";
 import { useQueryData } from "@/hooks/useQueryData";
 import { Organization as PrismaOrganization } from "@prisma/client";
 import { Loader, X } from "lucide-react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import React from "react";
 
 interface Organization extends PrismaOrganization {
     _count: {
         openings: number;
     };
 }
-import Link from "next/link";
-import React from "react";
 
 const OrganizationsPage = () => {
     const { data, isPending } = useQueryData(["get-organizations"], () => getOrganizations());
@@ -26,6 +27,11 @@ const OrganizationsPage = () => {
     }
 
     const { data: organizations, status } = data as { data: Organization[]; status: number };
+
+    if (organizations.length !== 0) {
+        setOrgId(organizations[0]);
+        redirect("/app/organization/" + organizations[0].id);
+    }
 
     return (
         <div className="m-4 flex flex-col h-full">
@@ -47,9 +53,11 @@ const OrganizationsPage = () => {
                         />
                     );
                 })}
-                {
-                    organizations.length === 0 && <div className="w-full h-full flex items-center justify-center self-center">No data found</div>
-                }
+                {organizations.length === 0 && (
+                    <div className="w-full h-full flex items-center justify-center self-center">
+                        No data found
+                    </div>
+                )}
             </div>
         </div>
     );
