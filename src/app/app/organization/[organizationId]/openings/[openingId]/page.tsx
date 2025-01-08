@@ -32,6 +32,7 @@ const OpeningId = (props: Props) => {
 
     const { data: openingDetails } = data as {
         data: {
+            id: string;
             title: string;
             ziOpeningId: string;
             descritpion: string;

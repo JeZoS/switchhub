@@ -177,12 +177,25 @@ export const useGetColumns = ({ openingDetails }: { openingDetails: Openings }) 
                     return status;
                 };
 
+                const getBorderColor = (row) => {
+                    if (getStatus(row.additionalInfo) === "Interview Completed") {
+                        return "1px solid black";
+                    }
+                    if (row.ziCandidateId) {
+                        return "5px solid green";
+                    }
+                    return "5px solid gray";
+                };
+
                 return (
                     <div className="flex justify-start items-center gap-2">
                         {openingDetails.ziOpeningId && (
                             <Button
                                 size="sm"
                                 className="bg-white border border-black text-black hover:bg-white hover:text-black"
+                                style={{
+                                    borderBottom: getBorderColor(row.row.original),
+                                }}
                                 onClick={() => {
                                     if (
                                         getStatus(row.row.original.additionalInfo) === "Interview Completed"
@@ -205,6 +218,8 @@ export const useGetColumns = ({ openingDetails }: { openingDetails: Openings }) 
                             >
                                 {getStatus(row.row.original.additionalInfo) === "Interview Completed"
                                     ? "Evaluation Link"
+                                    : row.row.original.ziCandidateId
+                                    ? "Zinterview Link*"
                                     : "Zinterview Link"}
                             </Button>
                         )}

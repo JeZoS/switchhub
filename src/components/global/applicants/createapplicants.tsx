@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 // import { useToast } from "@/hooks/use-toast";
 import { useMutationData } from "@/hooks/useMutationData";
 import { useState } from "react";
@@ -33,6 +34,7 @@ interface FormData {
 const CreateApplicants = (props: Props) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { register, handleSubmit } = useForm<FormData>();
+    const { toast } = useToast();
 
     const { mutate, isPending } = useMutationData(
         ["CreateApplicant"],
@@ -48,6 +50,13 @@ const CreateApplicants = (props: Props) => {
     );
 
     const onSubmit = (data: { firstName: string; lastName: string; email: string }) => {
+        if (data.firstName === "" || data.lastName === "" || data.email === "") {
+            toast({
+                title: "Error",
+                description: "Please fill all the fields",
+            });
+            return;
+        }
         mutate({
             firstName: data.firstName,
             lastName: data.lastName,

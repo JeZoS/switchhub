@@ -4,6 +4,7 @@ interface candidateStore {
     selectedCandidates: any;
     addCandidate: (candidateId: any) => void;
     removeCandidate: (candidateId: any) => void;
+    removeAllCandidates: () => void;
 }
 
 const useCandidateStore = create<candidateStore>((set) => ({
@@ -15,6 +16,10 @@ const useCandidateStore = create<candidateStore>((set) => ({
     removeCandidate: (candidateId: any) =>
         set((state) => ({
             selectedCandidates: state.selectedCandidates.filter((id: string) => id !== candidateId),
+        })),
+    removeAllCandidates: () =>
+        set(() => ({
+            selectedCandidates: [],
         })),
 }));
 

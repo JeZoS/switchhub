@@ -78,6 +78,9 @@ export const getOpening = async (id: string) => {
             },
             select: {
                 applicants: {
+                    orderBy: {
+                        createdAt: "asc",
+                    },
                     select: {
                         firstName: true,
                         lastName: true,
@@ -86,11 +89,13 @@ export const getOpening = async (id: string) => {
                         ziInterviewStatus: true,
                         ziCandidateId: true,
                         additionalInfo: true,
+                        createdAt: true,
                     },
                 },
                 title: true,
                 ziOpeningId: true,
                 description: true,
+                id: true,
             },
         });
         return {

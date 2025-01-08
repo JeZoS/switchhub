@@ -1,3 +1,6 @@
+"use client";
+
+import { createApplicantsAndSendInterviewMail } from "@/actions/applicants";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -13,6 +16,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
+import useCandidateStore from "@/hooks/useCandidates";
+import { useMutationData } from "@/hooks/useMutationData";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -23,8 +29,54 @@ interface Props {
 
 const GenerateAndSendZinterviewLink = ({ openingDetails, selectedCandidates }: Props) => {
     const { toast } = useToast();
+    const { removeAllCandidates } = useCandidateStore((state) => state);
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
-    const { register, handleSubmit } = useForm<{ subject: string; body: string }>();
+
+    const { register, handleSubmit, setValue } = useForm<{ subject: string; body: string }>();
+
+    const { mutate, isPending } = useMutationData(
+        ["CreateApplicants"],
+        (data) => createApplicantsAndSendInterviewMail(data),
+        "get-opening-" + openingDetails.id,
+        (data) => {
+            removeAllCandidates();
+            if (data.status !== 200) {
+                toast({
+                    title: "Error",
+                    description: data.message,
+                });
+                return;
+            }
+            toast({
+                title: "Success",
+                description: "Zinterview link generated and sent successfully",
+            });
+            setIsDialogOpen(false);
+        }
+    );
+
+    const onSubmit = (data: { subject: string; body: string }) => {
+        if (data.subject === "" || data.body === "") {
+            toast({
+                title: "Error",
+                description: "Subject and Body are required",
+            });
+            return;
+        }
+        if (selectedCandidates.length === 0) {
+            toast({
+                title: "Error",
+                description: "Select candidates to generate Zinterview link",
+            });
+            return;
+        }
+        mutate({
+            subject: data.subject,
+            body: data.body,
+            openingId: openingDetails.id,
+            selectedCandidates: selectedCandidates,
+        });
+    };
 
     return (
         <Dialog
@@ -48,6 +100,22 @@ const GenerateAndSendZinterviewLink = ({ openingDetails, selectedCandidates }: P
                                         });
                                         return;
                                     }
+                                    if (
+                                        openingDetails.applicants.filter((applicant: any) => {
+                                            if (
+                                                selectedCandidates.includes(applicant.id) &&
+                                                !applicant.ziCandidateId
+                                            ) {
+                                                return applicant;
+                                            }
+                                        }).length === 0
+                                    ) {
+                                        toast({
+                                            title: "Error",
+                                            description: "No pending Zinterviews to generate",
+                                        });
+                                        return;
+                                    }
                                     setIsDialogOpen(true);
                                 }}
                             >
@@ -56,7 +124,7 @@ const GenerateAndSendZinterviewLink = ({ openingDetails, selectedCandidates }: P
                                     openingDetails.applicants.filter((applicant: any) => {
                                         if (
                                             selectedCandidates.includes(applicant.id) &&
-                                            applicant.ziInterviewStatus === "PENDING"
+                                            !applicant.ziCandidateId
                                         ) {
                                             return applicant;
                                         }
@@ -102,6 +170,7 @@ const GenerateAndSendZinterviewLink = ({ openingDetails, selectedCandidates }: P
                                 id="subject"
                                 placeholder="Mail Subject"
                                 {...register("subject")}
+                                required
                             />
                         </div>
                         <div className="flex w-full justify-between gap-2 items-center">
@@ -116,6 +185,7 @@ const GenerateAndSendZinterviewLink = ({ openingDetails, selectedCandidates }: P
                                 placeholder="Mail Body"
                                 {...register("body")}
                                 rows={9}
+                                required
                             />
                         </div>
                         {/* <div className="flex w-full gap-4 items-center">
@@ -132,12 +202,10 @@ const GenerateAndSendZinterviewLink = ({ openingDetails, selectedCandidates }: P
                 <DialogFooter>
                     <Button
                         type="submit"
-                        disabled
-                        // onClick={handleSubmit(onSubmit)}
+                        disabled={isPending}
+                        onClick={handleSubmit(onSubmit)}
                     >
-                        {/* {isPending ? "Creating..." : "Create"} */}
-                        {/* Create */}
-                        Generate and Send
+                        {isPending ? "Generating..." : "Generate and send"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

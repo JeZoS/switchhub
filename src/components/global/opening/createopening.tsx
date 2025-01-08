@@ -21,7 +21,7 @@ import { useForm } from "react-hook-form";
 // import { toast } from "sonner";
 
 const CreateOpening = ({ organizationId }: { organizationId: string }) => {
-    const { register, handleSubmit } = useForm<{ title: string; description: boolean }>();
+    const { register, handleSubmit } = useForm<{ title: string; description: string }>();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { toast } = useToast();
 
@@ -38,7 +38,14 @@ const CreateOpening = ({ organizationId }: { organizationId: string }) => {
         }
     );
 
-    const onSubmit = (data: { title: string; description: boolean }) => {
+    const onSubmit = (data: { title: string; description: string }) => {
+        if (data.title === "" || data.description === "") {
+            toast({
+                title: "Error",
+                description: "Please fill all the fields",
+            });
+            return;
+        }
         mutate({
             title: data.title,
             description: data.description,
