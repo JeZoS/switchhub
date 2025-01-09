@@ -1,6 +1,6 @@
 "use client";
 
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useGetColumns } from "./columns";
@@ -19,10 +19,11 @@ export function ApplicantsDataTable<TData, TValue>({ data, openingDetails }: Dat
         columns,
         getCoreRowModel: getCoreRowModel(),
         enableRowSelection: true,
+        // getPaginationRowModel: getPaginationRowModel(),
     });
 
     return (
-        <div className="rounded-md border">
+        <div className="rounded-md border max-h-[76vh] overflow-auto">
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
