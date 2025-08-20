@@ -3,6 +3,7 @@
 import { getZiCandidate } from "@/actions/applicants";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ZI_API_HOST } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import useCandidateStore from "@/hooks/useCandidates";
 import { Openings } from "@prisma/client";
@@ -28,7 +29,7 @@ export const useGetColumns = ({ openingDetails }: { openingDetails: Openings }) 
             const response = await getZiCandidate(applicantId, openingDetails.ziOpeningId);
             if (response.status === 200) {
                 navigator.clipboard.writeText(
-                    `https://app.zinterview.ai/interview/${openingDetails.ziOpeningId}/start/${response.data?.ziCandidateId}`
+                    `${ZI_API_HOST}/interview/${openingDetails.ziOpeningId}/start/${response.data?.ziCandidateId}`
                 );
                 toast({
                     title: "Success",
@@ -202,7 +203,7 @@ export const useGetColumns = ({ openingDetails }: { openingDetails: Openings }) 
                                     ) {
                                         try {
                                             navigator?.clipboard?.writeText(
-                                                `https://app.zinterview.ai/admin/evaluation/${row.row.original.ziCandidateId}?openingId=${openingDetails.ziOpeningId}`
+                                                `${ZI_API_HOST}/admin/evaluation/${row.row.original.ziCandidateId}?openingId=${openingDetails.ziOpeningId}`
                                             );
                                             toast({
                                                 title: "Copied",

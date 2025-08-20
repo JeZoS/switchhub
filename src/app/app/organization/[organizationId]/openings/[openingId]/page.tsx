@@ -7,6 +7,7 @@ import CreateApplicants from "@/components/global/applicants/createapplicants";
 import GenerateAndSendZinterviewLink from "@/components/global/zinterview/generateAndSendZinterviewLink";
 import GenerateZinterviewOpening from "@/components/global/zinterview/generateZinterviewOpening";
 import { Button } from "@/components/ui/button";
+import { ZI_API_HOST } from "@/constants";
 // import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import useCandidateStore from "@/hooks/useCandidates";
@@ -56,7 +57,7 @@ const OpeningId = (props: Props) => {
                             variant="secondary"
                             onClick={() => {
                                 navigator.clipboard.writeText(
-                                    `https://app.zinterview.ai/interview/${openingDetails.ziOpeningId}`
+                                    `${ZI_API_HOST}/interview/${openingDetails.ziOpeningId}`
                                 );
                                 toast({
                                     title: "Copied",

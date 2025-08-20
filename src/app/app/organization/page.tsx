@@ -26,6 +26,10 @@ const OrganizationsPage = () => {
         return <div className="m-4">Loading...</div>;
     }
 
+    if(!data || !data.data) {
+        return <div className="m-4">No data found</div>;
+    }
+
     const { data: organizations, status } = data as { data: Organization[]; status: number };
 
     if (organizations.length !== 0) {

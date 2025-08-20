@@ -2,8 +2,8 @@
 
 import { client } from "@/lib/prisma";
 import axios from "axios";
-const ZI_API_URL = "https://app.zinterview.ai/api/v1";
-// const ZI_API_URL = "https://communal-quietly-doberman.ngrok-free.app/api/v1";
+// const ZI_API_URL = "https://app.zinterview.ai/api/v1";
+const ZI_API_URL = "https://communal-quietly-doberman.ngrok-free.app/api/v1";
 
 export const createApplicantsAndSendInterviewMail = async (data: {
     subject: string;
@@ -12,7 +12,7 @@ export const createApplicantsAndSendInterviewMail = async (data: {
     selectedCandidates: string[];
 }) => {
     try {
-        let selectedApplicants = await client.applicant.findMany({
+        const selectedApplicants = await client.applicant.findMany({
             where: {
                 id: {
                     in: data.selectedCandidates,
@@ -26,7 +26,7 @@ export const createApplicantsAndSendInterviewMail = async (data: {
                 email: true,
             },
         });
-        let organization = await client.openings.findUnique({
+        const organization = await client.openings.findUnique({
             where: {
                 id: data.openingId,
             },
@@ -61,7 +61,7 @@ export const createApplicantsAndSendInterviewMail = async (data: {
         const resp = await axios.post(ZI_API_URL + "/candidates/create-candidates", body, config);
         const zinterviewIds = [];
         if (resp && resp.data && resp.data.data) {
-            let candidates = resp.data.data;
+            const candidates = resp.data.data;
             for (let i = 0; i < candidates.length; i++) {
                 zinterviewIds.push(candidates[i]._id);
                 await client.applicant.updateMany({
@@ -78,7 +78,7 @@ export const createApplicantsAndSendInterviewMail = async (data: {
             }
         }
         if (zinterviewIds.length > 0) {
-            let body = {
+            const body = {
                 subject: data.subject,
                 body: data.body,
                 to: zinterviewIds.join(","),

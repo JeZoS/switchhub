@@ -1,5 +1,6 @@
 import { getZiCandidate } from "@/actions/applicants";
 import { Button } from "@/components/ui/button";
+import { ZI_API_HOST } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 // import { useMutationData } from "@/hooks/useMutationData";
 import type { Applicant } from "@prisma/client";
@@ -32,7 +33,7 @@ const Applicant = ({ applicant, ziOpeningId, isChecked, onCheckBoxClick }: Props
         const response = await getZiCandidate(applicant.id, ziOpeningId);
         if (response.status === 200) {
             navigator.clipboard.writeText(
-                `https://app.zinterview.ai/interview/${ziOpeningId}/start/${response.data?.ziCandidateId}`
+                `${ZI_API_HOST}/interview/${ziOpeningId}/start/${response.data?.ziCandidateId}`
             );
             toast({
                 title: "Success",
@@ -82,7 +83,7 @@ const Applicant = ({ applicant, ziOpeningId, isChecked, onCheckBoxClick }: Props
                         }}
                         onClick={() => {
                             navigator.clipboard.writeText(
-                                `https://app.zinterview.ai/admin/evaluation/${applicant.ziCandidateId}?openingId=${ziOpeningId}`
+                                `${ZI_API_HOST}/admin/evaluation/${applicant.ziCandidateId}?openingId=${ziOpeningId}`
                             );
                             toast({
                                 title: "Copied",

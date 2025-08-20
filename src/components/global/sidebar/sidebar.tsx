@@ -80,7 +80,7 @@ const SideBar = () => {
                     <>Loading...</>
                 ) : (
                     <div className="flex flex-col gap-2">
-                        <SelectOrganization organizations={data.data} />
+                        <SelectOrganization organizations={data?.data} />
                         <CreateOrganization />
                     </div>
                 )}
