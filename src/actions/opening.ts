@@ -1,7 +1,6 @@
 "use server";
 import { client } from "@/lib/prisma";
 import axios from "axios";
-// const ZI_API_URL = "https://app.zinterview.ai/api/v1";
 const ZI_API_URL = "https://communal-quietly-doberman.ngrok-free.app/api/v1";
 
 
